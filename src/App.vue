@@ -57,14 +57,26 @@ export default class App extends Vue {
 <style lang="scss">
   @import "styles/variables.css";
 
+  html {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    margin: unset;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    margin-top: 60px;
     background-color: var(--bg-color);
     color: var(--text-color);
+    width: 100%;
+    height: 100%;
   }
 
   .city {

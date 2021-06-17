@@ -3,7 +3,7 @@
         <input
                 class="autocomplete__input"
                 type="text"
-                :value="searchTerm"
+                :value.sync="searchTerm"
                 @input="onFilter($event.target.value)"
         >
         <button
@@ -17,6 +17,7 @@
                     v-for="option in filteredOptions"
                     :key="option.id"
                     @click="onSelect(option)"
+                    tabindex="-1"
             >
                 {{option.name}}
             </li>
@@ -77,7 +78,6 @@
         background-color: transparent;
         color: var(--text-color);
     }
-
 
     .autocomplete__button {
         background-color: transparent;
