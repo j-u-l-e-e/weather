@@ -22,6 +22,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Autocomplete from "@/components/Autocomplete.vue";
 import {IOption} from "@/helpers/ioption";
+import {Geolocation, GeolocationError} from "@/helpers/geolocation";
 
 @Component({
   components: {
@@ -30,11 +31,12 @@ import {IOption} from "@/helpers/ioption";
 })
 
 export default class App extends Vue {
+  // eslint-disable-next-line no-undef
+  private geolocationPosition : GeolocationPosition | undefined;
   private city: IOption = {
     name: 'Riga',
     id: 90
   };
-
   private cities: Array<IOption> = [
     {
       name: 'Riga',
@@ -45,11 +47,18 @@ export default class App extends Vue {
       id: 78
     },
   ];
-
   private useDark = false;
 
   onCitySelect(option: IOption): void {
     this.city = option;
+  }
+
+  async created() {
+    try {
+      this.geolocationPosition = await Geolocation.getInstance().fetchGeolocationPosition();
+    } catch (e) {
+      // ignore
+    }
   }
 }
 </script>
