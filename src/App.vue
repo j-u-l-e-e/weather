@@ -23,7 +23,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Autocomplete from "@/components/Autocomplete.vue";
 import {IOption} from "@/helpers/ioption";
 import {Geolocation, GeolocationError} from "@/helpers/geolocation";
-import {City} from "@/helpers/city";
+import {CityService} from "@/services/city-service";
 import {OpenWeatherService} from "@/services/open-weather-service";
 import {IWeather, IWeatherService} from "@/services/iweather-service";
 
@@ -65,10 +65,11 @@ export default class App extends Vue {
     }));
   }
 
-  async created() {
+  async created(): Promise<void> {
     try {
       this.geolocationPosition = await Geolocation.getInstance().fetchGeolocationPosition();
       this.weather = await OpenWeatherService.getInstance().fetchByCoordinates(this.geolocationPosition.coords.latitude, this.geolocationPosition.coords.longitude);
+      this.cities = await CityService.getInstance().fetchCities();
     } catch (e) {
       // ignore
     }

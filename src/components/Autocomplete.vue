@@ -4,7 +4,7 @@
                 class="autocomplete__input"
                 type="text"
                 :value.sync="searchTerm"
-                @input="onFilter($event.target.value)"
+                @input="onFilterDebounced($event.target.value)"
         >
         <button
                 class="autocomplete__button"
@@ -28,6 +28,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import {IOption} from "@/helpers/ioption";
+    import {debounce} from "@/helpers/debounce";
 
     @Component
     export default class Autocomplete extends Vue {
@@ -43,7 +44,7 @@
             });
         }
 
-        onSelect(option: IOption): void {
+        onSelect (option: IOption): void {
             this.searchTerm = option.name;
             this.$emit("change", option);
         }
@@ -51,6 +52,7 @@
         onFilter(searchTerm: string): void {
             this.searchTerm = searchTerm;
         }
+        onFilterDebounced = debounce(this.onFilter);
 
         onClear(): void {
             this.searchTerm = '';
