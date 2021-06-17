@@ -93,7 +93,9 @@
         right: auto;
         left: auto;
         width: 100%;
-        display: none;
+        /*display: none;*/
+        overflow-y: auto;
+        overflow-x: hidden;
         list-style: none;
         text-align: start;
         padding-inline-start: 0;

@@ -1,7 +1,7 @@
 <template>
   <div id="app" :data-dark="useDark">
     <autocomplete
-            :options="cities"
+            :options="cityOptions"
             v-model="city"
             @change="onCitySelect"
     />
@@ -23,6 +23,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import Autocomplete from "@/components/Autocomplete.vue";
 import {IOption} from "@/helpers/ioption";
 import {Geolocation, GeolocationError} from "@/helpers/geolocation";
+import {City} from "@/helpers/city";
+import {OpenWeatherService} from "@/services/open-weather-service";
+import {IWeather, IWeatherService} from "@/services/iweather-service";
 
 @Component({
   components: {
@@ -45,17 +48,27 @@ export default class App extends Vue {
     {
       name: 'Daugavpils',
       id: 78
-    },
+    }
   ];
   private useDark = false;
+  private weather: IWeather | undefined;
+  private useFahrenheit = false;
 
   onCitySelect(option: IOption): void {
     this.city = option;
   }
 
+  get cityOptions(): Array<IOption> {
+    return this.cities.map(city => ({
+      name: city.name,
+      id: city.id
+    }));
+  }
+
   async created() {
     try {
       this.geolocationPosition = await Geolocation.getInstance().fetchGeolocationPosition();
+      this.weather = await OpenWeatherService.getInstance().fetchByCoordinates(this.geolocationPosition.coords.latitude, this.geolocationPosition.coords.longitude);
     } catch (e) {
       // ignore
     }
