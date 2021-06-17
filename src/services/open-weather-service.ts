@@ -8,7 +8,7 @@ export class OpenWeatherServiceNoResultsError extends OpenWeatherServiceError {
 
 export class OpenWeatherService implements IWeatherService {
     static baseUrl = 'https://api.openweathermap.org/data/2.5/';
-    private static apiKey = process.env.OPEN_WEATHER_API_KEY;
+    private static apiKey = process.env.VUE_APP_OPEN_WEATHER_API_KEY;
     private static instance: OpenWeatherService;
 
     public static getInstance(): OpenWeatherService {
