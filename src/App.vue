@@ -13,43 +13,50 @@
     </label>
     <autocomplete
             :options="cityOptions"
-            v-model="city"
+            :value="city"
             @change="onCitySelect"
             class="weather__autocomplete"
     />
-    <h1>
+    <h1  v-if="city !== null">
       {{city.name}}
     </h1>
-    <h3>
-      {{weather.description}}
-    </h3>
-    <h3>
-      {{weather.temperature | temperature(useFahrenheit) }}
-    </h3>
-    <div>
-      {{weather.temperatureMax | temperature(useFahrenheit) }} / {{weather.temperatureMin | temperature(useFahrenheit) }}
-    </div>
-    <label>
-      Use fahrenheit
-      <input
-              type="checkbox"
-              v-model="useFahrenheit"
-      />
-    </label>
-    <div>
-      Humidity: {{weather.humidity}}%
-    </div>
-    <div>
-      Pressure: {{weather.pressure}} hPa
-    </div>
-    <div>
-      Wind: {{weather.windSpeed}} m/s ({{weather.windDirection | direction}})
-    </div>
+    <template v-if="weather !== null">
+      <h3>
+        {{weather.description}}
+      </h3>
+      <h3>
+        {{weather.temperature | temperature(useFahrenheit) }}
+      </h3>
+      <div>
+        {{weather.temperatureMax | temperature(useFahrenheit) }} / {{weather.temperatureMin | temperature(useFahrenheit) }}
+      </div>
+      <label>
+        Use fahrenheit
+        <input
+                type="checkbox"
+                v-model="useFahrenheit"
+        />
+      </label>
+      <div>
+        Humidity: {{weather.humidity}}%
+      </div>
+      <div>
+        Pressure: {{weather.pressure}} hPa
+      </div>
+      <div>
+        Wind: {{weather.windSpeed}} m/s ({{weather.windDirection | direction}})
+      </div>
+    </template>
+    <template v-else>
+      <h1>
+        No city selected
+      </h1>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+  import {Component, Vue, Watch} from 'vue-property-decorator';
 import Autocomplete from "@/components/Autocomplete.vue";
 import {City, IOption} from "@/helpers/ioption";
 import {Geolocation} from "@/helpers/geolocation";
@@ -73,36 +80,59 @@ import {degreeDirectionToCardinal, kelvinToCelsius, kelvinToFahrenheit} from "@/
 })
 
 export default class App extends Vue {
-  // eslint-disable-next-line no-undef
-  private geolocationPosition : GeolocationPosition | undefined;
-  private city: IOption = new City();
-  private deviceCity: IOption = new City();
+  private city: IOption | null = null;
+  private deviceCity: IOption | null = null;
   private cities: Array<IOption> = [];
+  private weather: IWeather | null = null;
   private useDark = false;
-  private weather: IWeather = new Weather();
   private useFahrenheit = false;
 
-  onCitySelect(option: IOption): void {
+  @Watch('city')
+  async onPropertyChanged(): Promise<void> {
+    await this.updateWeather();
+  }
+
+  private onCitySelect(option: IOption): void {
     this.city = option;
   }
 
-  get cityOptions(): Array<IOption> {
+  private get cityOptions(): Array<IOption> {
     return this.cities.map(city => ({
       name: city.name,
       id: city.id
     }));
   }
 
-  async updateGeolocation(): Promise<void> {
-    this.geolocationPosition = await Geolocation.getInstance().fetchGeolocationPosition();
-    this.weather = await OpenWeatherService.getInstance().fetchByCoordinates(this.geolocationPosition.coords.latitude, this.geolocationPosition.coords.longitude);
-    this.city = this.deviceCity = new City(this.weather.cityId, this.weather.cityName);
+  private applyDeviceCity(): void {
+    this.city = this.deviceCity;
   }
 
-  async created(): Promise<void> {
+  private async updateWeather(): Promise<void> {
+    if (this.city !== null) {
+      this.weather = await OpenWeatherService.getInstance().fetchById(this.city.id);
+    } else {
+      this.weather = null;
+    }
+  }
+
+  private async updateDeviceCity(): Promise<void> {
+    let geolocationPosition = await Geolocation.getInstance().fetchGeolocationPosition();
+    const weather = await OpenWeatherService.getInstance().fetchByCoordinates(geolocationPosition.coords.latitude, geolocationPosition.coords.longitude);
+    this.deviceCity = new City(weather.cityId, weather.cityName);
+  }
+
+  private async updateCities() : Promise<void> {
+    this.cities = await CityService.getInstance().fetchCities();
+    if (this.deviceCity !== null) {
+      this.cities.push(this.deviceCity);
+    }
+  }
+
+  private async created(): Promise<void> {
     try {
-      await this.updateGeolocation();
-      this.cities = await CityService.getInstance().fetchCities();
+      await this.updateDeviceCity();
+      await this.updateCities();
+      this.applyDeviceCity();
     } catch (e) {
       // ignore
     }

@@ -56,6 +56,7 @@
 
         onClear(): void {
             this.searchTerm = '';
+            this.$emit("change", null);
         }
     }
 </script>
