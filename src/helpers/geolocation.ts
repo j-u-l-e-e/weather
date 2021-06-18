@@ -1,13 +1,10 @@
 export class GeolocationError extends Error {
-
 }
 
 export class GeolocationNotSupportedError extends GeolocationError {
-
 }
 
 export class GeolocationNotAvailableError extends GeolocationError {
-
 }
 
 export class Geolocation {

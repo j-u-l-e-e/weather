@@ -1,5 +1,4 @@
 export class CityServiceError extends Error {
-
 }
 
 export class CityService {
@@ -16,7 +15,7 @@ export class CityService {
     public async fetchCities() : Promise<any> {
         const response = await fetch(CityService.citiesUrl);
         if (response.ok) {
-            const cities = (await response.json()).slice(0, 101);
+            const cities = (await response.json());
             cities.sort((a: any, b: any) => (a['name'] > b['name'] ? -1 : 0));
             return cities;
         } else {

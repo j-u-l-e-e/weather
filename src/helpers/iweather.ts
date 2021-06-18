@@ -12,18 +12,3 @@ export interface IWeather {
     windSpeed: number;
     iconUrl: string;
 }
-
-export class Weather implements IWeather {
-    cityName = '';
-    cityId = -1;
-    description = '';
-    temperature = 273.15;
-    temperatureMin = 273.15;
-    temperatureMax = 273.15;
-    temperatureFeelsLike = 273.15;
-    humidity = -1;
-    pressure = -1;
-    windDirection = -1;
-    windSpeed = -1;
-    iconUrl = '';
-}

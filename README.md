@@ -1,13 +1,23 @@
-# Weather
+# Weather webapp
 
 ## Description
-A forecast application where user can select a city from a list and the appropriate weather details are being displayed.
+A forecast web application made on Vue 2.
+Weather is presented by default based on the device's location. A city can also be chosen from an autocomplete list. 
 Weather data being displayed: 
 - temperature (current, min, max, feels like), 
 - humidity, 
 - pressure, 
 - wind (speed, direction).
 
+The device's position is retrieved via the Geolocation API when it is first started.
+To get weather data, OpenWeather API is used.
+
+Additional features:
+- dark mode,
+- Celsius/Fahrenheit unit switch,
+- layout responsiveness.
+
+Link to the deployed webapp: https://wonderful-khorana-fd91a5.netlify.app/
 
 ## Project setup
 ```
@@ -28,16 +38,3 @@ npm run build
 ```
 npm run test:unit
 ```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
