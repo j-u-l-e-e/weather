@@ -1,4 +1,5 @@
-import {IWeather, IWeatherService} from "@/services/iweather-service";
+import {IWeather} from "@/helpers/iweather";
+import {IWeatherService} from "@/services/iweather-service";
 
 export class OpenWeatherServiceError extends Error {
 }
@@ -8,6 +9,7 @@ export class OpenWeatherServiceNoResultsError extends OpenWeatherServiceError {
 
 export class OpenWeatherService implements IWeatherService {
     static baseUrl = 'https://api.openweathermap.org/data/2.5/';
+    static resourceUrl = 'http://openweathermap.org/img/wn/';
     private static apiKey = process.env.VUE_APP_OPEN_WEATHER_API_KEY;
     private static instance: OpenWeatherService;
 
@@ -29,7 +31,8 @@ export class OpenWeatherService implements IWeatherService {
             humidity: jsonResponse.main.humidity,
             pressure: jsonResponse.main.pressure,
             windDirection: jsonResponse.wind.direction,
-            windSpeed: jsonResponse.wind.speed
+            windSpeed: jsonResponse.wind.speed,
+            iconUrl: `${OpenWeatherService.resourceUrl}${jsonResponse.weather[0].icon}@4x.png`
         }
     }
 
@@ -46,7 +49,8 @@ export class OpenWeatherService implements IWeatherService {
                 humidity: weather.main.humidity,
                 pressure: weather.main.pressure,
                 windDirection: weather.wind.direction,
-                windSpeed: weather.wind.speed
+                windSpeed: weather.wind.speed,
+                iconUrl: `${OpenWeatherService.resourceUrl}${weather.weather[0].icon}@4x.png`
             }
         } else {
             throw new OpenWeatherServiceNoResultsError();

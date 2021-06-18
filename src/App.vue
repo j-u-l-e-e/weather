@@ -24,6 +24,7 @@
       <h3>
         {{weather.description}}
       </h3>
+      <img :src="weather.iconUrl" />
       <h3>
         {{weather.temperature | temperature(useFahrenheit) }}
       </h3>

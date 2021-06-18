@@ -9,6 +9,7 @@ export interface IWeather {
     pressure: number;
     windDirection: number;
     windSpeed: number;
+    iconUrl: string;
 }
 
 export class Weather implements IWeather {
@@ -22,4 +23,5 @@ export class Weather implements IWeather {
     pressure = -1;
     windDirection = -1;
     windSpeed = -1;
+    iconUrl = '';
 }

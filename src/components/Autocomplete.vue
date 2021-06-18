@@ -52,7 +52,7 @@
         onFilter(searchTerm: string): void {
             this.searchTerm = searchTerm;
         }
-        onFilterDebounced = debounce(this.onFilter);
+        onFilterDebounced = debounce(this.onFilter, 100);
 
         onClear(): void {
             this.searchTerm = '';
