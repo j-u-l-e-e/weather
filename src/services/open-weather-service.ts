@@ -20,7 +20,10 @@ export class OpenWeatherService implements IWeatherService {
 
     convertSingleResponseToIWeather(jsonResponse: any) : IWeather {
         return {
-            temperatureCurr: jsonResponse.main.temp,
+            cityName: jsonResponse.name,
+            cityId: jsonResponse.id,
+            description: jsonResponse.weather.length > 0 ? jsonResponse.weather[0].description: '',
+            temperature: jsonResponse.main.temp,
             temperatureMin: jsonResponse.main.temp_min,
             temperatureMax: jsonResponse.main.temp_max,
             humidity: jsonResponse.main.humidity,
@@ -34,7 +37,10 @@ export class OpenWeatherService implements IWeatherService {
         if (jsonResponse.count > 0) {
             const weather = jsonResponse.list[0];
             return {
-                temperatureCurr: weather.main.temp,
+                cityName: weather.name,
+                cityId: weather.id,
+                description: weather.weather.length > 0 ? weather.weather[0].description: '',
+                temperature: weather.main.temp,
                 temperatureMin: weather.main.temp_min,
                 temperatureMax: weather.main.temp_max,
                 humidity: weather.main.humidity,

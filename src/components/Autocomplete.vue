@@ -12,7 +12,7 @@
         >
             X
         </button>
-        <ul class="autocomplete__dropdown">
+        <ul class="autocomplete__dropdown" tabindex="-1">
             <li
                     v-for="option in filteredOptions"
                     :key="option.id"
@@ -95,7 +95,7 @@
         right: auto;
         left: auto;
         width: 100%;
-        /*display: none;*/
+        display: none;
         overflow-y: auto;
         overflow-x: hidden;
         list-style: none;
