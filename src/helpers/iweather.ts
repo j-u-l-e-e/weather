@@ -5,6 +5,7 @@ export interface IWeather {
     temperature: number;
     temperatureMin: number;
     temperatureMax: number;
+    temperatureFeelsLike: number;
     humidity: number;
     pressure: number;
     windDirection: number;
@@ -19,6 +20,7 @@ export class Weather implements IWeather {
     temperature = 273.15;
     temperatureMin = 273.15;
     temperatureMax = 273.15;
+    temperatureFeelsLike = 273.15;
     humidity = -1;
     pressure = -1;
     windDirection = -1;

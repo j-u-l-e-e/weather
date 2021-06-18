@@ -13,8 +13,8 @@
             <div class="weather__details">
                 <h3>{{weather.temperature | temperature(useFahrenheit) }}</h3>
                 {{weather.temperatureMax | temperature(useFahrenheit) }} / {{weather.temperatureMin |
-                temperature(useFahrenheit)
-                }}<br>
+                temperature(useFahrenheit) }}<br>
+                Feels like: {{weather.temperatureFeelsLike | temperature(useFahrenheit) }}<br>
                 <label>
                     Use fahrenheit
                     <input
