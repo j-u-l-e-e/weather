@@ -40,7 +40,7 @@
     import {Geolocation} from "@/helpers/geolocation";
     import {CityService} from "@/services/city-service";
     import {OpenWeatherService} from "@/services/open-weather-service";
-    import {IWeather, Weather} from "@/helpers/iweather";
+    import {IWeather} from "@/helpers/iweather";
     import {degreeDirectionToCardinal, kelvinToCelsius, kelvinToFahrenheit} from "@/helpers/converter";
 
     @Component({

@@ -1,4 +1,13 @@
-# weather
+# Weather
+
+## Description
+A forecast application where user can select a city from a list and the appropriate weather details are being displayed.
+Weather data being displayed: 
+- temperature (current, min, max, feels like), 
+- humidity, 
+- pressure, 
+- wind (speed, direction).
+
 
 ## Project setup
 ```
