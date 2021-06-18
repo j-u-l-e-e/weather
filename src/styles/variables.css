@@ -1,5 +1,5 @@
 :root {
-    --bg-color: rgba(255,255,255, 1);
+    --bg-color: linear-gradient(34deg, rgb(253 253 253) 42%, rgb(134 235 255) 100%);
     --text-color: rgba(48,47,57, 1);
     --text-soft-color: rgba(74,73,81, 1);
     --text-strong-color: rgba(74,74,74, 1);
@@ -27,11 +27,20 @@
     --outline-color-rgb: 187,180,227;
     --dark-color-rgb: 71,70,79;
     --light-color-rgb: 244,243,246;
+
+    --border-radius-sm: 4px;
+    --border-radius-md: 6px;
+    --border-radius-lg: 8px;
+    --padding-sm: 4px;
+    --padding-md: 6px;
+    --padding-lg: 8px;
+
+    --transition-duration-quick: 0.5s;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg-color: rgba(32,32,32, 1);
+        --bg-color: linear-gradient(34deg, rgb(0 0 0) 2%, rgb(3 105 154) 100%);
         --text-color: rgba(223,223,225, 1);
         --text-soft-color: rgba(187,187,189, 1);
         --text-strong-color: rgba(187,187,187, 1);
@@ -63,7 +72,7 @@
 }
 
 [data-dark='true'] {
-    --bg-color: rgba(32, 32, 32, 1);
+    --bg-color: linear-gradient(34deg, rgb(0 0 0) 2%, rgb(3 105 154) 100%);
     --text-color: rgba(223, 223, 225, 1);
     --text-soft-color: rgba(187, 187, 189, 1);
     --text-strong-color: rgba(187, 187, 187, 1);

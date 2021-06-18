@@ -13,23 +13,20 @@
     </label>
     <autocomplete
             :options="cityOptions"
-            :value="city"
-            @change="onCitySelect"
+            v-model="city"
             class="weather__autocomplete"
     />
-    <h1  v-if="city !== null">
-      {{city.name}}
-    </h1>
-    <template v-if="weather !== null">
-      <h3>
+    <div v-if="weather !== null">
+      <h3 class="weather-description">
         {{weather.description}}
       </h3>
-      <img :src="weather.iconUrl" />
+      <img :src="weather.iconUrl"/>
       <h3>
         {{weather.temperature | temperature(useFahrenheit) }}
       </h3>
       <div>
-        {{weather.temperatureMax | temperature(useFahrenheit) }} / {{weather.temperatureMin | temperature(useFahrenheit) }}
+        {{weather.temperatureMax | temperature(useFahrenheit) }} / {{weather.temperatureMin | temperature(useFahrenheit)
+        }}
       </div>
       <label>
         Use fahrenheit
@@ -47,12 +44,10 @@
       <div>
         Wind: {{weather.windSpeed}} m/s ({{weather.windDirection | direction}})
       </div>
-    </template>
-    <template v-else>
-      <h1>
-        No city selected
-      </h1>
-    </template>
+    </div>
+    <h1 v-if="weather === null">
+      No city selected
+    </h1>
   </div>
 </template>
 
@@ -89,12 +84,8 @@ export default class App extends Vue {
   private useFahrenheit = false;
 
   @Watch('city')
-  async onPropertyChanged(): Promise<void> {
+  async onCityChanged(): Promise<void> {
     await this.updateWeather();
-  }
-
-  private onCitySelect(option: IOption): void {
-    this.city = option;
   }
 
   private get cityOptions(): Array<IOption> {
@@ -160,14 +151,15 @@ export default class App extends Vue {
 
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
     color: var(--text-color);
     width: 100%;
     height: 100%;
   }
 
-  .city {
-    color: var(--text-color);
+  @media screen and (min-width: 576px) {
+    h3 {
+      font-size: 36px;
+    }
   }
 </style>
 
@@ -176,9 +168,20 @@ export default class App extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
   }
 
   .weather__autocomplete {
     margin: 10px;
+    font-size: 1.4em;
+  }
+
+  .weather-description {
+    text-align: center;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 </style>
