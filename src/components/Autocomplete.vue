@@ -121,6 +121,7 @@
         outline: none;
         background: transparent;
         border: none;
+        line-height: 1;
     }
 
     .autocomplete__button__toggle {
